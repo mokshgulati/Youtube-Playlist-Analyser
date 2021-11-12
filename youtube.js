@@ -36,8 +36,8 @@ let page;
             visibleVideos = await noOfElements("div#content.style-scope.ytd-playlist-video-renderer h3");
         }
         console.log("ACTUAL VIDEOS :     " + visibleVideos + " videos");
-        let titleNdDurationList = await getTitlesNdDurations('div#content.style-scope.ytd-playlist-video-renderer h3', '#text.style-scope.ytd-thumbnail-overlay-time-status-renderer');
-        console.log(titleNdDurationList);
+        // let titleNdDurationList = await getTitlesNdDurations('div#content.style-scope.ytd-playlist-video-renderer h3', '#text.style-scope.ytd-thumbnail-overlay-time-status-renderer');
+        // console.log(titleNdDurationList);
         // let totalLength = totalLengthOfAllVideos(titleNdDurationList);
         // console.log(totalLength);
     } catch (error) {
