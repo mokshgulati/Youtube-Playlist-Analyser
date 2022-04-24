@@ -1,7 +1,11 @@
+// npm i puppeteer
 let puppeteer = require('puppeteer');
 let pdf = require('pdfkit');
 let page;
 
+// configuring the chromium instance and extracting data like video lengths in the playlist,
+// playlist name, playlist desciption, etc
+// iife function
 (async function () {
     try {
         let initBrowser = await puppeteer.launch(
@@ -36,21 +40,23 @@ let page;
             visibleVideos = await noOfElements("div#content.style-scope.ytd-playlist-video-renderer h3");
         }
         console.log("ACTUAL VIDEOS :     " + visibleVideos + " videos");
-        // let titleNdDurationList = await getTitlesNdDurations('div#content.style-scope.ytd-playlist-video-renderer h3', '#text.style-scope.ytd-thumbnail-overlay-time-status-renderer');
-        // console.log(titleNdDurationList);
-        // let totalLength = totalLengthOfAllVideos(titleNdDurationList);
-        // console.log(totalLength);
+        let titleNdDurationList = await getTitlesNdDurations('div#content.style-scope.ytd-playlist-video-renderer h3', '#text.style-scope.ytd-thumbnail-overlay-time-status-renderer');
+        console.log(titleNdDurationList);
+        let totalLength = totalLengthOfAllVideos(titleNdDurationList);
+        console.log(totalLength);
     } catch (error) {
         console.log(error);
     }
 })();
 
+// function to scroll to the bottom of the playlist
 async function scrollToBottom() {
     await page.evaluate(() => {
         window.scrollBy(0, window.innerHeight);
     })
 }
 
+// to find the no of videos in the playlist
 async function noOfElements(selector) {
     let nos = await page.evaluate(function (elem) {
         let elemArr = document.querySelectorAll(elem);
@@ -59,6 +65,7 @@ async function noOfElements(selector) {
     return nos;
 }
 
+// to calculate the total length of all videos (sum) from the video length element array
 function totalLengthOfAllVideos(list) {
     let l = 0;
     for (let i = 0; i < list.length; i++) {
@@ -71,6 +78,7 @@ function totalLengthOfAllVideos(list) {
     return l;
 }
 
+// to get title and duration of each video and putting it into an array
 async function getTitlesNdDurations(titleSelector, durationSelector) {
     let array = await page.evaluate((titleSelector, durationSelector) => {
         let titles = document.querySelectorAll(titleSelector);
